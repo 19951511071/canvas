@@ -4,8 +4,6 @@
     box-sizing: border-box;
 }
 #canvas{
-    height:500px;
-    width:1000px;
     display:block;
     
 }

@@ -7,24 +7,34 @@
     <link href="style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-    <div id="canvas"></div>
+    <canvas id="canvas"></canvas>
 
 <script>
     let canvas = document.getElementById("canvas");
-    canvas.onclick = (e)=>{
-      //console.log(e.clientX);
-      //console.log(e.clientY);
-      let box =document.createElement("div");
-      
-      box.style.position='absolute';
-      box.style.left= e.clientX+ 'px';
-      box.style.top = e.clientY+ 'px';
-      box.style.width = '5px';
-      console.log(box)
-      box.style.height = '5px';
-      box.style.border = '1px solid red';
-      canvas.appendChild(box)
-    }  
+    canvas.width=document.documentElement.clientWidth;
+    canvas.height=document.documentElement.clientHeight;
+    var ctx =canvas.getContext("2d")
+    
+    ctx.fillStyle="black";
+    var painting =false;
+    canvas.onmousedown = (e)=>{
+        painting=true;
+    } 
+    canvas.onmousemove = (e) =>{
+        if(painting===true){
+        ctx.beginPath();
+        ctx.arc(e.clientX, e.clientY, 10, 0, 2 * Math.PI, false);
+        ctx.stroke();
+        ctx.fill();
+        //ctx.fillRect(e.clientX,e.clientY,10,10)
+        }
+    }
+    canvas.onmouseup=()=>{
+         painting=false;
+    }
+       
+   
+    
 </script>
 </body>
 </html>
