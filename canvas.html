@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <div id="canvas"></div>
+
+<script>
+    let canvas = document.getElementById("canvas");
+    canvas.onclick = (e)=>{
+      //console.log(e.clientX);
+      //console.log(e.clientY);
+      let box =document.createElement("div");
+      
+      box.style.position='absolute';
+      box.style.left= e.clientX+ 'px';
+      box.style.top = e.clientY+ 'px';
+      box.style.width = '5px';
+      console.log(box)
+      box.style.height = '5px';
+      box.style.border = '1px solid red';
+      canvas.appendChild(box)
+    }  
+</script>
+</body>
+</html>
