@@ -14,24 +14,53 @@
     canvas.width=document.documentElement.clientWidth;
     canvas.height=document.documentElement.clientHeight;
     var ctx =canvas.getContext("2d")
-    
     ctx.fillStyle="black";
+    ctx.lineWidth=10;
+    ctx.lineCap="round";//直线连接的地方是圆形，没有断口跟分叉
     var painting =false;
-    canvas.onmousedown = (e)=>{
-        painting=true;
-    } 
-    canvas.onmousemove = (e) =>{
-        if(painting===true){
-        ctx.beginPath();
-        ctx.arc(e.clientX, e.clientY, 10, 0, 2 * Math.PI, false);
-        ctx.stroke();
-        ctx.fill();
-        //ctx.fillRect(e.clientX,e.clientY,10,10)
+    let last;//用变量保存上一次点击的地方
+    var isTouchdevice = 'ontouchstart' in document.documentElement;//让浏览器支持手机触摸
+    if(isTouchdevice){
+        //console.log("这是触屏设备")
+        canvas.ontouchmove = (e) =>{
+            let x =e.touches[0].clientX;//手机不止用一个手指进行触摸，所以它的坐标保存在隐藏touchs属性里面
+            let y =e.touches[0].clientY;
+            
+            ctx.beginPath();
+            ctx.arc(x, y, 10, 0, 2 * Math.PI, false);//画圆形
+            ctx.stroke();
+            ctx.fill();
+            
         }
+    }else{
+        canvas.onmousedown = (e)=>{
+        painting=true;
+        last = [e.clientX,e.clientY]
+        } 
+        canvas.onmousemove = (e) =>{
+            if(painting===true){
+            ctx.beginPath();
+            drawline(last[0],last[1],e.clientX,e.clientY)
+            last = [e.clientX,e.clientY]//更新上一次点击时的坐标
+            //ctx.arc(e.clientX, e.clientY, 10, 0, 2 * Math.PI, false);
+            // ctx.stroke();
+            // ctx.fill();
+            // ctx.fillRect(e.clientX,e.clientY,10,10)
+            }
+        }
+        canvas.onmouseup=()=>{
+            painting=false;
+        } 
+        
     }
-    canvas.onmouseup=()=>{
-         painting=false;
+    function drawline(x1,y1,x2,y2){
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
     }
+    
+
        
    
     
